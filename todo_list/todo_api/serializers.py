@@ -21,15 +21,14 @@ class ListSerializer(serializers.ModelSerializer):
 
 
 class FolderSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    logging.info(user)
     lists = ListSerializer(many=True, read_only=True)
     logging.info(lists)
 
     class Meta:
         model = Folder
         fields = "__all__"
-
-
-
 
 
 # class FolderSerializer(serializers.Serializer):
