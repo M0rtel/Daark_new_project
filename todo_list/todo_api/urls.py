@@ -3,8 +3,10 @@ import logging
 from django.urls import path, include
 from rest_framework import routers
 
-from .views import FolderAPIList, ListAPIList, TaskAPIList, V1APIView, TaskAPIRetrieveUpdateDestroy, \
-    ListAPIRetrieveUpdateDestroy, FolderAPIRetrieveUpdateDestroy
+from .views import V1APIView, FolderAPIViewGetPost, FolderAPIViewUpdateDeleteGet, ListAPIViewGetPost, \
+    ListAPIViewUpdateDeleteGet
+
+# from .views import FolderAPIList, V1APIView, FolderAPIRetrieveUpdateDestroy
 
 # from .views import FolderViewSet, ListViewSet, TaskViewSet
 # router = routers.DefaultRouter()
@@ -14,15 +16,19 @@ from .views import FolderAPIList, ListAPIList, TaskAPIList, V1APIView, TaskAPIRe
 # logging.info(router.urls)
 #
 # urlpatterns = [
+#     path("", V1APIView.as_view()),
 #     path("", include(router.urls)),
 # ]
 
 urlpatterns = [
     path("", V1APIView.as_view()),
-    path("folders/", FolderAPIList.as_view()),
-    path("folders/<int:pk>/", FolderAPIRetrieveUpdateDestroy.as_view()),
-    path("lists/", ListAPIList.as_view()),
-    path("lists/<int:pk>/", ListAPIRetrieveUpdateDestroy.as_view()),
-    path("tasks/", TaskAPIList.as_view()),
-    path("tasks/<int:pk>/", TaskAPIRetrieveUpdateDestroy.as_view()),
+    path('folders/', FolderAPIViewGetPost.as_view(), name='folders-list'),
+    path('folders/<int:pk>/', FolderAPIViewUpdateDeleteGet.as_view(), name='folders-detail'),
+    path("lists/", ListAPIViewGetPost.as_view()),
+    path("lists/<int:pk>/", ListAPIViewUpdateDeleteGet.as_view()),
+    # path("tasks/", TaskAPIList.as_view()),
+    # path("tasks/<int:pk>/", TaskAPIRetrieveUpdateDestroy.as_view()),
 ]
+
+
+

@@ -6,14 +6,16 @@ from .models import List, Task, Folder
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = Task
         fields = "__all__"
 
 
 class ListSerializer(serializers.ModelSerializer):
-    tasks = TaskSerializer(many=True, read_only=True)
-    logging.info(tasks)
+    # tasks = TaskSerializer(many=True, read_only=True)
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = List
@@ -21,14 +23,41 @@ class ListSerializer(serializers.ModelSerializer):
 
 
 class FolderSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    logging.info(user)
-    lists = ListSerializer(many=True, read_only=True)
-    logging.info(lists)
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Folder
         fields = "__all__"
+
+
+    # user = serializers.HiddenField(default={'request': serializers.CurrentUserDefault()})
+    # lists = ListSerializer(many=True, read_only=True)
+    # authorized_users = serializers.m
+    # logging.info(serializers.CurrentUserDefault())
+    # modify_by = PrimaryKeyRelatedField(queryset=User.objects.all())
+    # parent_folder = PrimaryKeyRelatedField(queryset=Folder.objects.all())
+    # def get_username(self, obj):
+    #     logging.info(obj)
+    #     logging.info(obj.user)
+    #     return obj.user.username
+    #
+    # user = serializers.SerializerMethodField("get_username")
+
+    # def validate(self, attrs):
+    #     attrs = super().validate(attrs)
+    #     attrs['request'] = self.context['request']
+    #     return attrs
+
+    # def create(self, validated_data):
+    #     favoriteApartment = FavoriteApartments(
+    #         apartment=validated_data['apartment'],
+    #         user=self.context['request'].user
+    #     )
+    #     favoriteApartment.save()
+    #     return favoriteApartment
+    #
+    # def create(self, validated_data, **kwargs):
+    #     return Folder.objects.create(user_id=2, **validated_data)
 
 
 # class FolderSerializer(serializers.Serializer):
