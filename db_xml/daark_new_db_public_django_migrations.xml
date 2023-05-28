@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<row>
+  <id>1</id>
+  <app>contenttypes</app>
+  <name>0001_initial</name>
+  <applied>2023-05-28 14:00:24.768627 +00:00</applied>
+</row>
+<row>
+  <id>2</id>
+  <app>contenttypes</app>
+  <name>0002_remove_content_type_name</name>
+  <applied>2023-05-28 14:00:24.772626 +00:00</applied>
+</row>
+<row>
+  <id>3</id>
+  <app>auth</app>
+  <name>0001_initial</name>
+  <applied>2023-05-28 14:00:24.802626 +00:00</applied>
+</row>
+<row>
+  <id>4</id>
+  <app>auth</app>
+  <name>0002_alter_permission_name_max_length</name>
+  <applied>2023-05-28 14:00:24.806627 +00:00</applied>
+</row>
+<row>
+  <id>5</id>
+  <app>auth</app>
+  <name>0003_alter_user_email_max_length</name>
+  <applied>2023-05-28 14:00:24.811626 +00:00</applied>
+</row>
+<row>
+  <id>6</id>
+  <app>auth</app>
+  <name>0004_alter_user_username_opts</name>
+  <applied>2023-05-28 14:00:24.815627 +00:00</applied>
+</row>
+<row>
+  <id>7</id>
+  <app>auth</app>
+  <name>0005_alter_user_last_login_null</name>
+  <applied>2023-05-28 14:00:24.818627 +00:00</applied>
+</row>
+<row>
+  <id>8</id>
+  <app>auth</app>
+  <name>0006_require_contenttypes_0002</name>
+  <applied>2023-05-28 14:00:24.820627 +00:00</applied>
+</row>
+<row>
+  <id>9</id>
+  <app>auth</app>
+  <name>0007_alter_validators_add_error_messages</name>
+  <applied>2023-05-28 14:00:24.823626 +00:00</applied>
+</row>
+<row>
+  <id>10</id>
+  <app>auth</app>
+  <name>0008_alter_user_username_max_length</name>
+  <applied>2023-05-28 14:00:24.827626 +00:00</applied>
+</row>
+<row>
+  <id>11</id>
+  <app>auth</app>
+  <name>0009_alter_user_last_name_max_length</name>
+  <applied>2023-05-28 14:00:24.830626 +00:00</applied>
+</row>
+<row>
+  <id>12</id>
+  <app>auth</app>
+  <name>0010_alter_group_name_max_length</name>
+  <applied>2023-05-28 14:00:24.836626 +00:00</applied>
+</row>
+<row>
+  <id>13</id>
+  <app>auth</app>
+  <name>0011_update_proxy_permissions</name>
+  <applied>2023-05-28 14:00:24.840627 +00:00</applied>
+</row>
+<row>
+  <id>14</id>
+  <app>auth</app>
+  <name>0012_alter_user_first_name_max_length</name>
+  <applied>2023-05-28 14:00:24.844626 +00:00</applied>
+</row>
+<row>
+  <id>15</id>
+  <app>todo_api</app>
+  <name>0001_initial</name>
+  <applied>2023-05-28 14:00:24.937626 +00:00</applied>
+</row>
+<row>
+  <id>16</id>
+  <app>admin</app>
+  <name>0001_initial</name>
+  <applied>2023-05-28 14:00:24.954627 +00:00</applied>
+</row>
+<row>
+  <id>17</id>
+  <app>admin</app>
+  <name>0002_logentry_remove_auto_add</name>
+  <applied>2023-05-28 14:00:24.962626 +00:00</applied>
+</row>
+<row>
+  <id>18</id>
+  <app>admin</app>
+  <name>0003_logentry_add_action_flag_choices</name>
+  <applied>2023-05-28 14:00:24.972628 +00:00</applied>
+</row>
+<row>
+  <id>19</id>
+  <app>sessions</app>
+  <name>0001_initial</name>
+  <applied>2023-05-28 14:00:24.982626 +00:00</applied>
+</row>
+</data>

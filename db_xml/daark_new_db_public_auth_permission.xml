@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<row>
+  <id>1</id>
+  <name>Can add log entry</name>
+  <content_type_id>1</content_type_id>
+  <codename>add_logentry</codename>
+</row>
+<row>
+  <id>2</id>
+  <name>Can change log entry</name>
+  <content_type_id>1</content_type_id>
+  <codename>change_logentry</codename>
+</row>
+<row>
+  <id>3</id>
+  <name>Can delete log entry</name>
+  <content_type_id>1</content_type_id>
+  <codename>delete_logentry</codename>
+</row>
+<row>
+  <id>4</id>
+  <name>Can view log entry</name>
+  <content_type_id>1</content_type_id>
+  <codename>view_logentry</codename>
+</row>
+<row>
+  <id>5</id>
+  <name>Can add permission</name>
+  <content_type_id>2</content_type_id>
+  <codename>add_permission</codename>
+</row>
+<row>
+  <id>6</id>
+  <name>Can change permission</name>
+  <content_type_id>2</content_type_id>
+  <codename>change_permission</codename>
+</row>
+<row>
+  <id>7</id>
+  <name>Can delete permission</name>
+  <content_type_id>2</content_type_id>
+  <codename>delete_permission</codename>
+</row>
+<row>
+  <id>8</id>
+  <name>Can view permission</name>
+  <content_type_id>2</content_type_id>
+  <codename>view_permission</codename>
+</row>
+<row>
+  <id>9</id>
+  <name>Can add group</name>
+  <content_type_id>3</content_type_id>
+  <codename>add_group</codename>
+</row>
+<row>
+  <id>10</id>
+  <name>Can change group</name>
+  <content_type_id>3</content_type_id>
+  <codename>change_group</codename>
+</row>
+<row>
+  <id>11</id>
+  <name>Can delete group</name>
+  <content_type_id>3</content_type_id>
+  <codename>delete_group</codename>
+</row>
+<row>
+  <id>12</id>
+  <name>Can view group</name>
+  <content_type_id>3</content_type_id>
+  <codename>view_group</codename>
+</row>
+<row>
+  <id>13</id>
+  <name>Can add content type</name>
+  <content_type_id>4</content_type_id>
+  <codename>add_contenttype</codename>
+</row>
+<row>
+  <id>14</id>
+  <name>Can change content type</name>
+  <content_type_id>4</content_type_id>
+  <codename>change_contenttype</codename>
+</row>
+<row>
+  <id>15</id>
+  <name>Can delete content type</name>
+  <content_type_id>4</content_type_id>
+  <codename>delete_contenttype</codename>
+</row>
+<row>
+  <id>16</id>
+  <name>Can view content type</name>
+  <content_type_id>4</content_type_id>
+  <codename>view_contenttype</codename>
+</row>
+<row>
+  <id>17</id>
+  <name>Can add session</name>
+  <content_type_id>5</content_type_id>
+  <codename>add_session</codename>
+</row>
+<row>
+  <id>18</id>
+  <name>Can change session</name>
+  <content_type_id>5</content_type_id>
+  <codename>change_session</codename>
+</row>
+<row>
+  <id>19</id>
+  <name>Can delete session</name>
+  <content_type_id>5</content_type_id>
+  <codename>delete_session</codename>
+</row>
+<row>
+  <id>20</id>
+  <name>Can view session</name>
+  <content_type_id>5</content_type_id>
+  <codename>view_session</codename>
+</row>
+<row>
+  <id>21</id>
+  <name>Can add user</name>
+  <content_type_id>6</content_type_id>
+  <codename>add_user</codename>
+</row>
+<row>
+  <id>22</id>
+  <name>Can change user</name>
+  <content_type_id>6</content_type_id>
+  <codename>change_user</codename>
+</row>
+<row>
+  <id>23</id>
+  <name>Can delete user</name>
+  <content_type_id>6</content_type_id>
+  <codename>delete_user</codename>
+</row>
+<row>
+  <id>24</id>
+  <name>Can view user</name>
+  <content_type_id>6</content_type_id>
+  <codename>view_user</codename>
+</row>
+<row>
+  <id>25</id>
+  <name>Can add folder</name>
+  <content_type_id>7</content_type_id>
+  <codename>add_folder</codename>
+</row>
+<row>
+  <id>26</id>
+  <name>Can change folder</name>
+  <content_type_id>7</content_type_id>
+  <codename>change_folder</codename>
+</row>
+<row>
+  <id>27</id>
+  <name>Can delete folder</name>
+  <content_type_id>7</content_type_id>
+  <codename>delete_folder</codename>
+</row>
+<row>
+  <id>28</id>
+  <name>Can view folder</name>
+  <content_type_id>7</content_type_id>
+  <codename>view_folder</codename>
+</row>
+<row>
+  <id>29</id>
+  <name>Can add list</name>
+  <content_type_id>8</content_type_id>
+  <codename>add_list</codename>
+</row>
+<row>
+  <id>30</id>
+  <name>Can change list</name>
+  <content_type_id>8</content_type_id>
+  <codename>change_list</codename>
+</row>
+<row>
+  <id>31</id>
+  <name>Can delete list</name>
+  <content_type_id>8</content_type_id>
+  <codename>delete_list</codename>
+</row>
+<row>
+  <id>32</id>
+  <name>Can view list</name>
+  <content_type_id>8</content_type_id>
+  <codename>view_list</codename>
+</row>
+<row>
+  <id>33</id>
+  <name>Can add task</name>
+  <content_type_id>9</content_type_id>
+  <codename>add_task</codename>
+</row>
+<row>
+  <id>34</id>
+  <name>Can change task</name>
+  <content_type_id>9</content_type_id>
+  <codename>change_task</codename>
+</row>
+<row>
+  <id>35</id>
+  <name>Can delete task</name>
+  <content_type_id>9</content_type_id>
+  <codename>delete_task</codename>
+</row>
+<row>
+  <id>36</id>
+  <name>Can view task</name>
+  <content_type_id>9</content_type_id>
+  <codename>view_task</codename>
+</row>
+</data>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<row>
+  <id>11</id>
+  <password>pbkdf2_sha256$600000$wMFFhqKyV3Ci7h0WjHqbEQ$yU5znq6jZo9j407L9+teM9RlIQVxpFI0v4viz6pgUIQ=</password>
+  <last_login>null</last_login>
+  <is_superuser>false</is_superuser>
+  <username>root</username>
+  <email>root@mail.ru</email>
+  <is_active>true</is_active>
+  <is_staff>false</is_staff>
+  <created_at>2023-05-28 15:30:00.103101 +00:00</created_at>
+  <updated_at>2023-05-28 15:30:00.103101 +00:00</updated_at>
+</row>
+<row>
+  <id>12</id>
+  <password>pbkdf2_sha256$600000$tXzgMqc8cppJjRugN9ROYu$iR871VJfKp+ODMwEkkKW/KcW1Rd1R9GyiTFNN9l0Su0=</password>
+  <last_login>null</last_login>
+  <is_superuser>false</is_superuser>
+  <username>root1</username>
+  <email>root1@mail.ru</email>
+  <is_active>true</is_active>
+  <is_staff>false</is_staff>
+  <created_at>2023-05-28 16:53:11.649957 +00:00</created_at>
+  <updated_at>2023-05-28 16:53:11.649957 +00:00</updated_at>
+</row>
+</data>

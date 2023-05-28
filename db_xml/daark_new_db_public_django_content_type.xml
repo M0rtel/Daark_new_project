@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<row>
+  <id>1</id>
+  <app_label>admin</app_label>
+  <model>logentry</model>
+</row>
+<row>
+  <id>2</id>
+  <app_label>auth</app_label>
+  <model>permission</model>
+</row>
+<row>
+  <id>3</id>
+  <app_label>auth</app_label>
+  <model>group</model>
+</row>
+<row>
+  <id>4</id>
+  <app_label>contenttypes</app_label>
+  <model>contenttype</model>
+</row>
+<row>
+  <id>5</id>
+  <app_label>sessions</app_label>
+  <model>session</model>
+</row>
+<row>
+  <id>6</id>
+  <app_label>todo_api</app_label>
+  <model>user</model>
+</row>
+<row>
+  <id>7</id>
+  <app_label>todo_api</app_label>
+  <model>folder</model>
+</row>
+<row>
+  <id>8</id>
+  <app_label>todo_api</app_label>
+  <model>list</model>
+</row>
+<row>
+  <id>9</id>
+  <app_label>todo_api</app_label>
+  <model>task</model>
+</row>
+</data>
