@@ -1,10 +1,8 @@
-import logging
-
 from django.urls import path
 
 from .views import V1APIView, FolderAPIViewGetPost, FolderAPIViewUpdateDeleteGet, ListAPIViewGetPost, \
-    ListAPIViewUpdateDeleteGet, LoginAPIView, RegistrationAPIView, UserRetrieveUpdateAPIView
-
+    ListAPIViewUpdateDeleteGet, LoginAPIView, RegistrationAPIView, UserRetrieveUpdateAPIView, TaskAPIViewGetPost, \
+    TaskAPIViewUpdateDeleteGet
 
 urlpatterns = [
     path("", V1APIView.as_view()),
@@ -15,8 +13,8 @@ urlpatterns = [
     path('folders/<int:pk>/', FolderAPIViewUpdateDeleteGet.as_view(), name='folders-detail'),
     path("lists/", ListAPIViewGetPost.as_view()),
     path("lists/<int:pk>/", ListAPIViewUpdateDeleteGet.as_view()),
-    # path("tasks/", TaskAPIList.as_view()),
-    # path("tasks/<int:pk>/", TaskAPIRetrieveUpdateDestroy.as_view()),
+    path("tasks/", TaskAPIViewGetPost.as_view()),
+    path("tasks/<int:pk>/", TaskAPIViewUpdateDeleteGet.as_view()),
 ]
 
 

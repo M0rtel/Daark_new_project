@@ -5,7 +5,7 @@ from rest_framework.pagination import PageNumberPagination
 
 from .models import Folder, List, Task
 from .permissions import Authenticated
-from .serializers import FolderSerializer, ListSerializer
+from .serializers import FolderSerializer, ListSerializer, TaskSerializer
 
 from rest_framework import status
 from rest_framework.generics import RetrieveUpdateAPIView
@@ -102,6 +102,9 @@ class V1APIView(APIView):
                 ]
             }
         )
+
+
+# --------------------------Folder----------------------------
 
 
 class FolderAPIViewGetPost(APIView):
@@ -211,6 +214,9 @@ class FolderAPIViewUpdateDeleteGet(APIView):
         return Response({"detail": "У вас недостаточно прав."})
 
 
+# --------------------------List----------------------------
+
+
 class ListAPIViewGetPost(APIView):
     serializer_class = ListSerializer
     permission_classes = [Authenticated]
@@ -219,8 +225,8 @@ class ListAPIViewGetPost(APIView):
         return self.list(request, *args, **kwargs)
 
     def list(self, request, *args, **kwargs):
-        user_get_folder = self.check_privilege()
-        serializer = ListSerializer(user_get_folder, many=True)
+        user_get_list = self.check_privilege()
+        serializer = ListSerializer(user_get_list, many=True)
         return Response(serializer.data)
 
     def check_privilege(self):
@@ -285,7 +291,8 @@ class ListAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
         try:
             user = self.request.user
             obj = List.objects.get(pk=pk)
-            if (obj.is_public and obj.user.is_authenticated) or obj.user == request.user or (str(user) in [user.username for user in obj.authorized_users.all()]):
+            if (obj.is_public and user.is_authenticated) or (obj.user == user)\
+                    or (str(user) in [user.username for user in obj.authorized_users.all()]):
                 return obj
 
             return False
@@ -308,18 +315,18 @@ class ListAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
         user = self.request.user
         objs = List.objects.all()
 
-        user_get_folder = []
+        user_get_list = []
         for obj in objs:
-            if obj.is_public and (obj not in user_get_folder):
-                user_get_folder.append(obj)
+            if obj.is_public and (obj not in user_get_list):
+                user_get_list.append(obj)
 
-            elif (obj.user == user) and (obj not in user_get_folder):
-                user_get_folder.append(obj)
+            elif (obj.user == user) and (obj not in user_get_list):
+                user_get_list.append(obj)
 
-            elif (str(user) in [user.username for user in obj.authorized_users.all()]) and (obj not in user_get_folder):
-                user_get_folder.append(obj)
+            elif (str(user) in [user.username for user in obj.authorized_users.all()]) and (obj not in user_get_list):
+                user_get_list.append(obj)
 
-        serializer = ListSerializer(user_get_folder, many=True)
+        serializer = ListSerializer(user_get_list, many=True)
         return Response(serializer.data)
 
     def delete(self, request, pk):
@@ -334,6 +341,150 @@ class ListAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
         obj = self.get_object(pk, request)
         if obj:
             serializer = ListSerializer(obj, data=request.data)
+            logging.info(serializer)
+            if serializer.is_valid():
+                serializer.save(modify_by=self.request.user)
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"detail": "У вас недостаточно прав."})
+
+
+# --------------------------Task----------------------------
+
+
+class TaskAPIViewGetPost(APIView):
+    serializer_class = TaskSerializer
+    permission_classes = [Authenticated]
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def list(self, request, *args, **kwargs):
+        user_get_folder = self.check_privilege()
+        serializer = TaskSerializer(user_get_folder, many=True)
+        logging.info(serializer)
+        return Response(serializer.data)
+
+    def check_privilege(self):
+        user = self.request.user
+        objs = Task.objects.all()
+
+        user_get_task = []
+        for obj in objs:
+            if obj.is_public and (obj not in user_get_task):
+                user_get_task.append(obj)
+
+            elif (obj.user == user) and (obj not in user_get_task):
+                user_get_task.append(obj)
+
+            elif (str(user) in [user.username for user in obj.authorized_users.all()]) and (obj not in user_get_task):
+                user_get_task.append(obj)
+
+        return user_get_task
+
+    def post(self, request):
+        if request.user.is_authenticated:
+            serializer = TaskSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save(
+                    user=self.request.user,
+                    modify_by=self.request.user,
+                )
+                data_s = serializer.data
+                list_parent_folder = self.check_parent_list()
+                if data_s['parent_list'] in list_parent_folder:
+                    return Response(data_s, status=status.HTTP_201_CREATED)
+                else:
+                    return Response({"detail": "У вас недостаточно прав."})
+
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"detail": "У вас недостаточно прав."})
+
+    def check_parent_list(self):
+        user = self.request.user
+        objs = List.objects.all()
+
+        parent_list_l = []
+        for obj in objs:
+            if obj.is_public and (obj not in parent_list_l):
+                parent_list_l.append(obj)
+
+            elif (obj.user == user) and (obj not in parent_list_l):
+                parent_list_l.append(obj)
+
+            elif (str(user) in [user.username for user in obj.authorized_users.all()]) and (obj not in parent_list_l):
+                parent_list_l.append(obj)
+
+        parent_list = [x.id for x in parent_list_l]
+        return parent_list
+
+
+class TaskAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже есть в БД' request == 'ТО что сейчас ты твоё состояние'
+    serializer_class = TaskSerializer
+    permission_classes = [Authenticated]
+
+    def get_object(self, pk, request):
+        try:
+            user = self.request.user
+            obj = Task.objects.get(pk=pk)
+            # logging.info(user)
+            # logging.info(obj)
+            # logging.info(obj.user)
+            # logging.info(obj.user == user)
+            # logging.info(obj.is_public)
+            # logging.info(user.is_authenticated)
+            # logging.info((str(user) in [user.username for user in obj.authorized_users.all()]))
+            if (obj.is_public and user.is_authenticated) or (obj.user == user)\
+                    or (str(user) in [user.username for user in obj.authorized_users.all()]):
+                return obj
+
+            return False
+
+        except Task.DoesNotExist:
+            raise Http404
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            instance = Task.objects.get(pk=kwargs['pk'])
+            serializer = TaskSerializer(instance=instance)
+            return Response(serializer.data)
+        except Task.DoesNotExist:
+            raise Http404
+
+    def get_queryset(self):
+        user = self.request.user
+        objs = Task.objects.all()
+
+        user_get_task = []
+        for obj in objs:
+            if obj.is_public and (obj not in user_get_task):
+                user_get_task.append(obj)
+
+            elif (obj.user == user) and (obj not in user_get_task):
+                user_get_task.append(obj)
+
+            elif (str(user) in [user.username for user in obj.authorized_users.all()]) and (obj not in user_get_task):
+                user_get_task.append(obj)
+
+        serializer = TaskSerializer(user_get_task, many=True)
+        return Response(serializer.data)
+
+    def delete(self, request, pk):
+        obj = self.get_object(pk, request)
+        if obj:
+            obj.delete()
+            return Response({"delete_list_id": pk}, status=status.HTTP_200_OK)
+
+        return Response({"detail": "У вас недостаточно прав."}, status=status.HTTP_401_UNAUTHORIZED)
+
+    def put(self, request, pk):
+        obj = self.get_object(pk, request)
+        if obj:
+            serializer = TaskSerializer(obj, data=request.data)
             logging.info(serializer)
             if serializer.is_valid():
                 serializer.save(modify_by=self.request.user)
