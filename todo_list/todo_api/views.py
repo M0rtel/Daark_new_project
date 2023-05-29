@@ -36,6 +36,7 @@ class RegistrationAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
+        logging.info(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -114,22 +115,17 @@ class FolderAPIViewGetPost(APIView):
 
     # get
     def get(self, request, *args, **kwargs):
-        logging.info(self.request.user)
         return self.list(request, *args, **kwargs)
 
     def list(self, request, *args, **kwargs):
         user_get_folder = self.check_privilege()
-        logging.info(user_get_folder)
         serializer = FolderSerializer(user_get_folder, many=True)
-        # serializer.is_valid()
-        logging.info(serializer)
-        logging.info(serializer.data)
+        logging.info(f'READ: {serializer.data}')
         return Response(serializer.data)
 
     def check_privilege(self):
         user = self.request.user
         objs = Folder.objects.all()
-        logging.info(objs)
 
         user_get_folder = []
         for obj in objs:
@@ -150,6 +146,7 @@ class FolderAPIViewGetPost(APIView):
 
             if serializer.is_valid():
                 serializer.save(user=self.request.user)
+                logging.info(f'CREATED, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
 
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -173,6 +170,7 @@ class FolderAPIViewUpdateDeleteGet(APIView):
         try:
             instance = Folder.objects.get(pk=kwargs['pk'])
             serializer = FolderSerializer(instance=instance)
+            logging.info(f'READ, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
             return Response(serializer.data)
         except Folder.DoesNotExist:
             raise Http404
@@ -199,6 +197,7 @@ class FolderAPIViewUpdateDeleteGet(APIView):
         obj = self.get_object(pk)
         if obj.user == request.user:
             obj.delete()
+            logging.info(f'DELETED - "delete_folder_id": {pk}')
             return Response({"delete_folder_id": pk}, status=status.HTTP_200_OK)
 
         return Response({"detail": "У вас недостаточно прав."}, status=status.HTTP_401_UNAUTHORIZED)
@@ -209,6 +208,7 @@ class FolderAPIViewUpdateDeleteGet(APIView):
             serializer = FolderSerializer(obj, data=request.data)
             if serializer.is_valid():
                 serializer.save()
+                logging.info(f'UPDATED, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response({"detail": "У вас недостаточно прав."})
@@ -227,6 +227,7 @@ class ListAPIViewGetPost(APIView):
     def list(self, request, *args, **kwargs):
         user_get_list = self.check_privilege()
         serializer = ListSerializer(user_get_list, many=True)
+        logging.info(f'READ: {serializer.data}')
         return Response(serializer.data)
 
     def check_privilege(self):
@@ -257,6 +258,7 @@ class ListAPIViewGetPost(APIView):
                 data_s = serializer.data
                 list_parent_folder = self.check_parent_folder()
                 if data_s['parent_folder'] in list_parent_folder:
+                    logging.info(f'CREATED, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
                     return Response(data_s, status=status.HTTP_201_CREATED)
                 else:
                     return Response({"detail": "У вас недостаточно прав."})
@@ -307,6 +309,7 @@ class ListAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
         try:
             instance = List.objects.get(pk=kwargs['pk'])
             serializer = ListSerializer(instance=instance)
+            logging.info(f'READ, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
             return Response(serializer.data)
         except List.DoesNotExist:
             raise Http404
@@ -333,6 +336,7 @@ class ListAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
         obj = self.get_object(pk, request)
         if obj:
             obj.delete()
+            logging.info(f'DELETED - "delete_folder_id": {pk}')
             return Response({"delete_list_id": pk}, status=status.HTTP_200_OK)
 
         return Response({"detail": "У вас недостаточно прав."}, status=status.HTTP_401_UNAUTHORIZED)
@@ -341,9 +345,9 @@ class ListAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
         obj = self.get_object(pk, request)
         if obj:
             serializer = ListSerializer(obj, data=request.data)
-            logging.info(serializer)
             if serializer.is_valid():
                 serializer.save(modify_by=self.request.user)
+                logging.info(f'UPDATED, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -363,7 +367,7 @@ class TaskAPIViewGetPost(APIView):
     def list(self, request, *args, **kwargs):
         user_get_folder = self.check_privilege()
         serializer = TaskSerializer(user_get_folder, many=True)
-        logging.info(serializer)
+        logging.info(f'READ: {serializer.data}')
         return Response(serializer.data)
 
     def check_privilege(self):
@@ -394,6 +398,7 @@ class TaskAPIViewGetPost(APIView):
                 data_s = serializer.data
                 list_parent_folder = self.check_parent_list()
                 if data_s['parent_list'] in list_parent_folder:
+                    logging.info(f'CREATED, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
                     return Response(data_s, status=status.HTTP_201_CREATED)
                 else:
                     return Response({"detail": "У вас недостаточно прав."})
@@ -451,6 +456,7 @@ class TaskAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
         try:
             instance = Task.objects.get(pk=kwargs['pk'])
             serializer = TaskSerializer(instance=instance)
+            logging.info(f'READ, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
             return Response(serializer.data)
         except Task.DoesNotExist:
             raise Http404
@@ -477,6 +483,7 @@ class TaskAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
         obj = self.get_object(pk, request)
         if obj:
             obj.delete()
+            logging.info(f'DELETED - "delete_folder_id": {pk}')
             return Response({"delete_list_id": pk}, status=status.HTTP_200_OK)
 
         return Response({"detail": "У вас недостаточно прав."}, status=status.HTTP_401_UNAUTHORIZED)
@@ -488,6 +495,7 @@ class TaskAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
             logging.info(serializer)
             if serializer.is_valid():
                 serializer.save(modify_by=self.request.user)
+                logging.info(f'UPDATED, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

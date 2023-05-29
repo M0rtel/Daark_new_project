@@ -8,16 +8,16 @@ from rest_framework import permissions
 # делающий запрос, автором желаемого объекта.
 # Если пользователь аутентифицирован, после получения объекта вызывается has_object_permission, где мы проверяем,
 # совпадает ли автор объекта с пользователем.
-class AuthorOrReadOnly(permissions.BasePermission):
-    def has_permission(self, request, view):
-        if request.user.is_authenticated:
-            return True
-        return False
-
-    def has_object_permission(self, request, view, obj):
-        if obj.user == request.user:
-            return True
-        return False
+# class AuthorOrReadOnly(permissions.BasePermission):
+#     def has_permission(self, request, view):
+#         if request.user.is_authenticated:
+#             return True
+#         return False
+#
+#     def has_object_permission(self, request, view, obj):
+#         if obj.user == request.user:
+#             return True
+#         return False
 
 
 class Authenticated(permissions.BasePermission):

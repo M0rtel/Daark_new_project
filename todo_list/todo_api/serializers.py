@@ -30,6 +30,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Использовать метод create_user, который мы
         # написали ранее, для создания нового пользователя.
+        # validated_data['user'] = self.context.get('request').META.get("REMOTE_ADDR")
         return User.objects.create_user(**validated_data)
 
 
