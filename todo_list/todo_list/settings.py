@@ -8,9 +8,11 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-dir = str(os.getenv("DIR"))
-user = str(os.getenv("USER"))
-password = str(os.getenv("PASSWORD"))
+SECRET_KEY = str(os.getenv("SECRET_KEY"))
+user = str(os.getenv("POSTGRES_USER"))
+password = str(os.getenv("POSTGRES_PASSWORD"))
+db = str(os.getenv("POSTGRES_DB"))
+
 
 LOGGING = {
     "version": 1,
@@ -26,20 +28,20 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "level": "DEBUG",
             "formatter": "simple",
-            "stream": "ext://sys.stdout"
+            "stream": r"ext://sys.stdout"
         },
         "info_file_handler": {
             "class": "logging.FileHandler",
             "level": "DEBUG",
             "formatter": "simple",
-            "filename": rf"{dir}/login_register.log",
+            "filename": r"../login_register.log",
             "encoding": "utf8"
         },
         "error_file_handler": {
             "class": "logging.FileHandler",
             "level": "DEBUG",
             "formatter": "simple",
-            "filename": rf"{dir}/info.log",
+            "filename": r"../info.log",
             "encoding": "utf8"
         }
     },
@@ -64,7 +66,7 @@ LOGGING = {
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8$s^%_z&-xe$88f5kv!fmtdgo10mty=i-sgk3e8x#0+mlu+t*r'
+SECRET_KEY = rf'{SECRET_KEY}'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -123,9 +125,9 @@ WSGI_APPLICATION = 'todo_list.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'daark_new_db',
-        'USER': f'{user}',
-        'PASSWORD': f'{password}',
+        'NAME': db,
+        'USER': user,
+        'PASSWORD': password,
         'HOST': 'localhost',
         'PORT': '5432'
     }
@@ -174,6 +176,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'PAGE_SIZE': 2,
+
     'EXCEPTION_HANDLER': 'todo_api.exceptions.core_exception_handler',
     'NON_FIELD_ERRORS_KEY': 'error',
 

@@ -1,0 +1,31 @@
+version: '2.0'
+
+services:
+  web:
+    build: ..
+    network_mode: "host"
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app/
+    ports:
+      - 8000:8000
+    environment:
+      - SECRET_KEY=django-insecure-8$s^%_z&-xe$88f5kv!fmtdgo10mty=i-sgk3e8x#0+mlu+t*r
+    depends_on:
+      - daarkdb
+
+  daarkdb:
+    hostname: daarkdb
+    container_name: daark-db
+    image: postgres:latest
+    volumes:
+      - daark-db:/var/lib/postgresql/data
+    ports:
+      - "5007:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234554321
+      - POSTGRES_DB=postgres_dark
+
+volumes:
+  daark-db:
