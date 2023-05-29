@@ -39,7 +39,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/folders/",
+							"name": "http://127.0.0.1:8000/api/v1/folders/{number}/",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -99,7 +99,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/folders/",
+							"name": "http://127.0.0.1:8000/api/v1/folders/{number}/",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -134,7 +134,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/folders/",
+							"name": "http://127.0.0.1:8000/api/v1/folders/{number}/",
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -199,7 +199,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/lists/",
+							"name": "http://127.0.0.1:8000/api/v1/lists/{number}/",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -250,7 +250,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/lists/",
+							"name": "http://127.0.0.1:8000/api/v1/lists/{number}/",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -276,7 +276,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/lists/",
+							"name": "http://127.0.0.1:8000/api/v1/lists/{number}/",
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -294,6 +294,139 @@
 										"api",
 										"v1",
 										"lists",
+										"1",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Task",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/api/v1/tasks/",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/api/v1/tasks/{number}/",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/1/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										"1",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/api/v1/tasks/",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/api/v1/tasks/{number}/",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/1/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										"1",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/api/v1/tasks/{number}/",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/1/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
 										"1",
 										""
 									]
@@ -358,7 +491,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/folders/",
+							"name": "http://127.0.0.1:8000/api/v1/folders/{number}/",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -448,7 +581,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/folders/",
+							"name": "http://127.0.0.1:8000/api/v1/folders/{number}/",
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -492,7 +625,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/folders/",
+							"name": "http://127.0.0.1:8000/api/v1/folders/{number}/",
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -587,7 +720,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/folders/",
+							"name": "http://127.0.0.1:8000/api/v1/folders/{number}/",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -677,7 +810,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/folders/",
+							"name": "http://127.0.0.1:8000/api/v1/folders/{number}/",
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -721,7 +854,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/folders/",
+							"name": "http://127.0.0.1:8000/api/v1/folders/{number}/",
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -758,6 +891,235 @@
 										"v1",
 										"lists",
 										"2",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Task",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/api/v1/tasks/",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImV4cCI6MTY4NTQ3NzM2NX0.rVc-pTVx78P_w15O6CdsO892VNX33So3hiaf7Btvgh4",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"popa1\",\r\n    \"is_public\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/api/v1/tasks/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImV4cCI6MTY4NTQ3NzM2NX0.rVc-pTVx78P_w15O6CdsO892VNX33So3hiaf7Btvgh4",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"popa1\",\r\n    \"parent_list\": 3,\r\n    \"status\": \"DONE\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/api/v1/tasks/{number}/",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImV4cCI6MTY4NTQ3NzM2NX0.rVc-pTVx78P_w15O6CdsO892VNX33So3hiaf7Btvgh4",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/13/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										"13",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/api/v1/tasks/{number}/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImV4cCI6MTY4NTQ3NzM2NX0.rVc-pTVx78P_w15O6CdsO892VNX33So3hiaf7Btvgh4",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"popa222223124r1gfd\",\r\n    \"is_public\": true,\r\n    \"status\": \"DONE\",\r\n    \"parent_list\": 3,\r\n    \"authorized_users\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/13/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										"13",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/api/v1/tasks/{number}/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImV4cCI6MTY4NTQ3NzM2NX0.rVc-pTVx78P_w15O6CdsO892VNX33So3hiaf7Btvgh4",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"popa222223124r1gfd\",\r\n    \"is_public\": true,\r\n    \"status\": \"DONE\",\r\n    \"parent_list\": 3,\r\n    \"authorized_users\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/14/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										"14",
 										""
 									]
 								}
@@ -923,7 +1285,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/folders/",
+							"name": "http://127.0.0.1:8000/api/v1/folders/{number}/",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -1007,7 +1369,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/folders/",
+							"name": "http://127.0.0.1:8000/api/v1/folders/{number}/",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -1048,7 +1410,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/folders/",
+							"name": "http://127.0.0.1:8000/api/v1/folders/{number}/",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -1137,7 +1499,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/lists/",
+							"name": "http://127.0.0.1:8000/api/v1/lists/{number}/",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -1221,7 +1583,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/lists/",
+							"name": "http://127.0.0.1:8000/api/v1/lists/{number}/",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -1262,7 +1624,7 @@
 							"response": []
 						},
 						{
-							"name": "http://127.0.0.1:8000/api/v1/lists/",
+							"name": "http://127.0.0.1:8000/api/v1/lists/{number}/",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -1296,6 +1658,220 @@
 										"v1",
 										"lists",
 										"3",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Task",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/api/v1/user",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsImV4cCI6MTY4NTQ3OTQzNX0.btTXX-IW6vPuKBfvU11PUm0PfbQxjeHhGK7COEnPn6k",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"username\": \"fhgjjghffj\",\r\n        \"email\": \"useffghgfjfghgdfghjksgfjkghdsgdfsgfdgdfghr1@user.user\",\r\n        \"password\": \"1qweafhgjjfhgsghjkdfgdgsffdsgdssdzxc\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/api/v1/user{number}/",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsImV4cCI6MTY4NTQ3OTQzNX0.btTXX-IW6vPuKBfvU11PUm0PfbQxjeHhGK7COEnPn6k",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"username\": \"fhgjjghffj\",\r\n        \"email\": \"useffghgfjfghgdfghjksgfjkghdsgdfsgfdgdfghr1@user.user\",\r\n        \"password\": \"1qweafhgjjfhgsghjkdfgdgsffdsgdssdzxc\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/13/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										"13",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/api/v1/user",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsImV4cCI6MTY4NTQ3OTQzNX0.btTXX-IW6vPuKBfvU11PUm0PfbQxjeHhGK7COEnPn6k",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"popa2222231dasffdasafsd\",\r\n    \"is_public\": true,\r\n    \"status\": \"DONE\",\r\n    \"parent_list\": 3,\r\n    \"authorized_users\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/api/v1/user",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsImV4cCI6MTY4NTQ3OTQzNX0.btTXX-IW6vPuKBfvU11PUm0PfbQxjeHhGK7COEnPn6k",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"22231dasffdasafsd\",\r\n    \"is_public\": true,\r\n    \"status\": \"DONE\",\r\n    \"parent_list\": 3,\r\n    \"authorized_users\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/17/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										"17",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/api/v1/user",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsImV4cCI6MTY4NTQ3OTQzNX0.btTXX-IW6vPuKBfvU11PUm0PfbQxjeHhGK7COEnPn6k",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Злаппавп\",\r\n    \"is_public\": true,\r\n    \"status\": \"PROCESS\",\r\n    \"parent_list\": 3,\r\n    \"authorized_users\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/tasks/13/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										"13",
 										""
 									]
 								}
