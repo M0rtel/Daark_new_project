@@ -1,5 +1,3 @@
-import logging
-
 import jwt
 
 from datetime import datetime, timedelta
@@ -13,12 +11,6 @@ from django.contrib.auth.models import PermissionsMixin
 
 
 class UserManager(BaseUserManager):
-    """
-    Django требует, чтобы кастомные пользователи определяли свой собственный
-    класс Manager. Унаследовавшись от BaseUserManager, мы получаем много того
-    же самого кода, который Django использовал для создания User (для демонстрации).
-    """
-
     def create_user(self, username, email, password=None):
         """ Создает и возвращает пользователя с имэйлом, паролем и именем. """
         if username is None:
@@ -47,47 +39,16 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    # Каждому пользователю нужен понятный человеку уникальный идентификатор,
-    # который мы можем использовать для предоставления User в пользовательском
-    # интерфейсе. Мы так же проиндексируем этот столбец в базе данных для
-    # повышения скорости поиска в дальнейшем.
     username = models.CharField(db_index=True, max_length=255, unique=True)
-
-    # Так же мы нуждаемся в поле, с помощью которого будем иметь возможность
-    # связаться с пользователем и идентифицировать его при входе в систему.
-    # Поскольку адрес почты нам нужен в любом случае, мы также будем
-    # использовать его для входы в систему, так как это наиболее
-    # распространенная форма учетных данных на данный момент (ну еще телефон).
     email = models.EmailField(db_index=True, unique=True)
-
-    # Когда пользователь более не желает пользоваться нашей системой, он может
-    # захотеть удалить свой аккаунт. Для нас это проблема, так как собираемые
-    # нами данные очень ценны, и мы не хотим их удалять :) Мы просто предложим
-    # пользователям способ деактивировать учетку вместо ее полного удаления.
-    # Таким образом, они не будут отображаться на сайте, но мы все еще сможем
-    # далее анализировать информацию.
     is_active = models.BooleanField(default=True)
-
-    # Этот флаг определяет, кто может войти в административную часть нашего
-    # сайта. Для большинства пользователей это флаг будет ложным.
     is_staff = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
-    # Временная метка создания объекта.
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    # Временная метка показывающая время последнего обновления объекта.
-    updated_at = models.DateTimeField(auto_now=True)
-
-    # Дополнительный поля, необходимые Django
-    # при указании кастомной модели пользователя.
-
-    # Свойство USERNAME_FIELD сообщает нам, какое поле мы будем использовать
-    # для входа в систему. В данном случае мы хотим использовать почту.
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
-    # Сообщает Django, что определенный выше класс UserManager
-    # должен управлять объектами этого типа.
     objects = UserManager()
 
     def __str__(self):
@@ -122,9 +83,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         dt = datetime.now() + timedelta(days=1)
 
-        # def to_integer(dt_time):
-        #     return 10000 * dt_time.year + 100 * dt_time.month + dt_time.day
-
         token = jwt.encode({
             'id': self.pk,
             'exp': dt.utcfromtimestamp(dt.timestamp())
@@ -148,7 +106,7 @@ class Folder(models.Model):
 
 class List(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_list')
-    modify_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='modify_list')  # Пользователь который последний раз вносил изменения
+    edited_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='modify_list')  # Пользователь который последний раз вносил изменения
     parent_folder = models.ForeignKey(Folder, on_delete=models.CASCADE, related_name='lists')
     title = models.CharField(max_length=75)
     is_public = models.BooleanField(default=False, blank=True)
@@ -162,7 +120,7 @@ class List(models.Model):
 
 class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_task')
-    modify_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='modify_task')  # Пользователь который последний раз вносил изменения
+    edited_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='modify_task')  # Пользователь который последний раз вносил изменения
     parent_list = models.ForeignKey(List, on_delete=models.CASCADE, related_name='tasks')
     title = models.CharField(max_length=75)
     is_public = models.BooleanField(default=False, blank=True)

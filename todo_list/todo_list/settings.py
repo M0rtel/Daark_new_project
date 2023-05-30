@@ -12,6 +12,8 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"))
 user = str(os.getenv("POSTGRES_USER"))
 password = str(os.getenv("POSTGRES_PASSWORD"))
 db = str(os.getenv("POSTGRES_DB"))
+host = str(os.getenv("HOST"))
+port = str(os.getenv("PORT"))
 
 
 LOGGING = {
@@ -26,36 +28,24 @@ LOGGING = {
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
-            "level": "DEBUG",
+            "level": "INFO",
             "formatter": "simple",
             "stream": r"ext://sys.stdout"
         },
         "info_file_handler": {
             "class": "logging.FileHandler",
-            "level": "DEBUG",
+            "level": "INFO",
             "formatter": "simple",
-            "filename": r"../login_register.log",
+            "filename": r"./log_info.log",
             "encoding": "utf8"
         },
-        "error_file_handler": {
-            "class": "logging.FileHandler",
-            "level": "DEBUG",
-            "formatter": "simple",
-            "filename": r"../info.log",
-            "encoding": "utf8"
-        }
     },
     "loggers": {
-        "nav_debug": {
-            "level": "DEBUG",
+        "nav_info": {
+            "level": "INFO",
             "handlers": ["info_file_handler"],
             "propagate": "no"
         },
-        "nav_error": {
-            "level": "ERROR",
-            "handlers": ["error_file_handler"],
-            "propagate": "no"
-        }
     },
     "root": {
         "level": "INFO",
@@ -83,9 +73,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'todo_api.apps.TodoApiConfig',
     'rest_framework',
     'djoser',
+    'todo_api.apps.TodoApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -128,8 +118,8 @@ DATABASES = {
         'NAME': db,
         'USER': user,
         'PASSWORD': password,
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'HOST': host,
+        'PORT': port
     }
 }
 
