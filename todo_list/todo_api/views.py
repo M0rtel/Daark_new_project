@@ -36,7 +36,12 @@ class RegistrationAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        logging.info(serializer.data)
+        logging.info(
+            f"Registration - "
+            f"IP: {request.META['REMOTE_ADDR']}, User-Agent:"
+            f" {request.META['HTTP_USER_AGENT']}, ID: {serializer.data['id']}"
+        )
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -54,6 +59,11 @@ class LoginAPIView(APIView):
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
 
+        logging.info(
+            f"Login - "
+            f"IP: {request.META['REMOTE_ADDR']}, User-Agent:"
+            f" {request.META['HTTP_USER_AGENT']}"
+        )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -67,11 +77,18 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         # сериализатор обрабатывал преобразования объекта User во что-то, что
         # можно привести к json и вернуть клиенту.
         serializer = self.serializer_class(request.user)
+        # logging.info(serializer.data)
+        logging.info(
+            f"UserRetrieveUpdate - "
+            f"IP: {request.META['REMOTE_ADDR']}, User-Agent:"
+            f" {request.META['HTTP_USER_AGENT']}, ID: {serializer.data['id']}"
+        )
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def update(self, request, *args, **kwargs):
         serializer_data = request.data.get('user', {})
+        # logging.info(serializer_data)
 
         # Паттерн сериализации, валидирования и сохранения - то, о чем говорили
         serializer = self.serializer_class(
@@ -79,6 +96,12 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+        logging.info(
+            f"UserRetrieveUpdate - "
+            f"IP: {request.META['REMOTE_ADDR']}, User-Agent:"
+            f" {request.META['HTTP_USER_AGENT']}, ID: {serializer.data['id']}"
+        )
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 

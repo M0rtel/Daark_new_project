@@ -20,12 +20,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
     # Клиентская сторона не должна иметь возможность отправлять токен вместе с
     # запросом на регистрацию. Сделаем его доступным только на чтение.
     token = serializers.CharField(max_length=255, read_only=True)
+    id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = User
         # Перечислить все поля, которые могут быть включены в запрос
         # или ответ, включая поля, явно указанные выше.
-        fields = ['email', 'username', 'password', 'token']
+        fields = ['id', 'email', 'username', 'password', 'token']
 
     def create(self, validated_data):
         # Использовать метод create_user, который мы
@@ -39,6 +40,7 @@ class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255, read_only=True)
     password = serializers.CharField(max_length=128, write_only=True)
     token = serializers.CharField(max_length=255, read_only=True)
+    id = serializers.IntegerField(read_only=True)
 
     def validate(self, data):
         # В методе validate мы убеждаемся, что текущий экземпляр
@@ -101,10 +103,11 @@ class UserSerializer(serializers.ModelSerializer):
         min_length=8,
         write_only=True
     )
+    id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'password', 'token',)
+        fields = ('id', 'email', 'username', 'password', 'token',)
 
         # Параметр read_only_fields является альтернативой явному указанию поля
         # с помощью read_only = True, как мы это делали для пароля выше.
