@@ -106,7 +106,7 @@ class Folder(models.Model):
 
 class List(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_list')
-    edited_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='modify_list')  # Пользователь который последний раз вносил изменения
+    edited_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='edited_list')  # Пользователь который последний раз вносил изменения
     parent_folder = models.ForeignKey(Folder, on_delete=models.CASCADE, related_name='lists')
     title = models.CharField(max_length=75)
     is_public = models.BooleanField(default=False, blank=True)
@@ -120,7 +120,7 @@ class List(models.Model):
 
 class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_task')
-    edited_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='modify_task')  # Пользователь который последний раз вносил изменения
+    edited_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='edited_task')  # Пользователь который последний раз вносил изменения
     parent_list = models.ForeignKey(List, on_delete=models.CASCADE, related_name='tasks')
     title = models.CharField(max_length=75)
     is_public = models.BooleanField(default=False, blank=True)

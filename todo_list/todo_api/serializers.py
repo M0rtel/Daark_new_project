@@ -100,7 +100,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
-    modify_by = serializers.PrimaryKeyRelatedField(read_only=True)
+    edited_by = serializers.PrimaryKeyRelatedField(read_only=True)
     # old_version = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
@@ -111,7 +111,7 @@ class TaskSerializer(serializers.ModelSerializer):
 class ListSerializer(serializers.ModelSerializer):
     # tasks = TaskSerializer(many=True, read_only=True)
     user = serializers.PrimaryKeyRelatedField(read_only=True)
-    modify_by = serializers.PrimaryKeyRelatedField(read_only=True)
+    edited_by = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = List
