@@ -3,9 +3,9 @@ import logging
 from django.http import Http404
 from rest_framework.pagination import PageNumberPagination
 
+from . import serializers
 from .models import Folder, List, Task
 from .permissions import Authenticated
-from .serializers import FolderSerializer, ListSerializer, TaskSerializer
 
 from rest_framework import status
 from rest_framework.generics import RetrieveUpdateAPIView
@@ -14,9 +14,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .renderers import UserJSONRenderer
-from .serializers import (
-    LoginSerializer, RegistrationSerializer, UserSerializer,
-)
 
 log = logging.getLogger('nav_info')
 
@@ -26,7 +23,7 @@ class RegistrationAPIView(APIView):
     Разрешить всем пользователям (аутентифицированным и нет) доступ к данному эндпоинту.
     """
     permission_classes = (AllowAny,)
-    serializer_class = RegistrationSerializer
+    serializer_class = serializers.RegistrationSerializer
     renderer_classes = (UserJSONRenderer,)
 
     def post(self, request):
@@ -48,7 +45,7 @@ class RegistrationAPIView(APIView):
 class LoginAPIView(APIView):
     permission_classes = (AllowAny,)
     renderer_classes = (UserJSONRenderer,)
-    serializer_class = LoginSerializer
+    serializer_class = serializers.LoginSerializer
 
     def post(self, request):
         user = request.data.get('user', {})
@@ -67,7 +64,7 @@ class LoginAPIView(APIView):
 class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated,)
     renderer_classes = (UserJSONRenderer,)
-    serializer_class = UserSerializer
+    serializer_class = serializers.UserSerializer
 
     def retrieve(self, request, *args, **kwargs):
         serializer = self.serializer_class(request.user)
@@ -102,27 +99,27 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
 #     max_page_size = 10000
 
 
-class V1APIView(APIView):
-    def get(self, request):
-        return Response(
-            {
-                'folders': 'http://127.0.0.1:8000/api/v1/folders/',
-                'lists': 'http://127.0.0.1:8000/api/v1/lists/',
-                'tasks': 'http://127.0.0.1:8000/api/v1/tasks/',
-                'auth': [
-                    'http://127.0.0.1:8000/api/v1/user',
-                    'http://127.0.0.1:8000/api/v1/users/',
-                    'http://127.0.0.1:8000/api/v1/users/login/'
-                ]
-            }
-        )
+# class V1APIView(APIView):
+#     def get(self, request):
+#         return Response(
+#             {
+#                 'folders': 'http://127.0.0.1:8000/api/v1/folders/',
+#                 'lists': 'http://127.0.0.1:8000/api/v1/lists/',
+#                 'tasks': 'http://127.0.0.1:8000/api/v1/tasks/',
+#                 'auth': [
+#                     'http://127.0.0.1:8000/api/v1/user',
+#                     'http://127.0.0.1:8000/api/v1/users/',
+#                     'http://127.0.0.1:8000/api/v1/users/login/'
+#                 ]
+#             }
+#         )
 
 
 # --------------------------Folder----------------------------
 
 
 class FolderAPIViewGetPost(APIView):
-    serializer_class = FolderSerializer
+    serializer_class = serializers.FolderSerializer
     permission_classes = [Authenticated]
     # pagination_class = LargeResultsSetPagination
 
@@ -132,7 +129,7 @@ class FolderAPIViewGetPost(APIView):
 
     def list(self, request, *args, **kwargs):
         user_get_folder = self.check_privilege()
-        serializer = FolderSerializer(user_get_folder, many=True)
+        serializer = self.serializer_class(user_get_folder, many=True)
         log.info(f'READ: {serializer.data}')
         return Response(serializer.data)
 
@@ -155,7 +152,7 @@ class FolderAPIViewGetPost(APIView):
 
     def post(self, request):
         if request.user.is_authenticated:
-            serializer = FolderSerializer(data=request.data)
+            serializer = self.serializer_class(data=request.data)
 
             if serializer.is_valid():
                 serializer.save(user=self.request.user)
@@ -163,11 +160,11 @@ class FolderAPIViewGetPost(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
 
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response({"detail": "У вас недостаточно прав."})
+        return Response({"detail": "You don't have enough rights."})
 
 
 class FolderAPIViewUpdateDeleteGet(APIView):
-    serializer_class = FolderSerializer
+    serializer_class = serializers.FolderSerializer
     permission_classes = [Authenticated]
 
     def get_object(self, pk):
@@ -182,7 +179,7 @@ class FolderAPIViewUpdateDeleteGet(APIView):
     def retrieve(self, request, *args, **kwargs):
         try:
             instance = Folder.objects.get(pk=kwargs['pk'])
-            serializer = FolderSerializer(instance=instance)
+            serializer = self.serializer_class(instance=instance)
             log.info(f'READ, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
             return Response(serializer.data)
         except Folder.DoesNotExist:
@@ -203,7 +200,7 @@ class FolderAPIViewUpdateDeleteGet(APIView):
             elif (str(user) in [user.username for user in obj.authorized_users.all()]) and (obj not in user_get_folder):
                 user_get_folder.append(obj)
 
-        serializer = FolderSerializer(user_get_folder, many=True)
+        serializer = self.serializer_class(user_get_folder, many=True)
         return Response(serializer.data)
 
     def delete(self, request, pk):
@@ -212,26 +209,25 @@ class FolderAPIViewUpdateDeleteGet(APIView):
             obj.delete()
             log.info(f'DELETED - "delete_folder_id": {pk}')
             return Response({"delete_folder_id": pk}, status=status.HTTP_200_OK)
-
-        return Response({"detail": "У вас недостаточно прав."}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({"detail": "You don't have enough rights."}, status=status.HTTP_401_UNAUTHORIZED)
 
     def put(self, request, pk):
         obj = self.get_object(pk)
         if obj.user == request.user:
-            serializer = FolderSerializer(obj, data=request.data)
+            serializer = self.serializer_class(obj, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 log.info(f'UPDATED, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
-                return Response(serializer.data)
+                return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response({"detail": "У вас недостаточно прав."})
+        return Response({"detail": "You don't have enough rights."})
 
 
 # --------------------------List----------------------------
 
 
 class ListAPIViewGetPost(APIView):
-    serializer_class = ListSerializer
+    serializer_class = serializers.ListSerializer
     permission_classes = [Authenticated]
 
     def get(self, request, *args, **kwargs):
@@ -239,7 +235,7 @@ class ListAPIViewGetPost(APIView):
 
     def list(self, request, *args, **kwargs):
         user_get_list = self.check_privilege()
-        serializer = ListSerializer(user_get_list, many=True)
+        serializer = self.serializer_class(user_get_list, many=True)
         log.info(f'READ: {serializer.data}')
         return Response(serializer.data)
 
@@ -262,7 +258,7 @@ class ListAPIViewGetPost(APIView):
 
     def post(self, request):
         if request.user.is_authenticated:
-            serializer = ListSerializer(data=request.data)
+            serializer = self.serializer_class(data=request.data)
             if serializer.is_valid():
                 serializer.save(
                     user=self.request.user,
@@ -274,10 +270,10 @@ class ListAPIViewGetPost(APIView):
                     log.info(f'CREATED, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
                     return Response(data_s, status=status.HTTP_201_CREATED)
                 else:
-                    return Response({"detail": "У вас недостаточно прав."})
+                    return Response({"detail": "You don't have enough rights."})
 
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response({"detail": "У вас недостаточно прав."})
+        return Response({"detail": "You don't have enough rights."})
 
     def check_parent_folder(self):
         user = self.request.user
@@ -299,7 +295,7 @@ class ListAPIViewGetPost(APIView):
 
 
 class ListAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже есть в БД' request == 'ТО что сейчас ты твоё состояние'
-    serializer_class = ListSerializer
+    serializer_class = serializers.ListSerializer
     permission_classes = [Authenticated]
 
     def get_object(self, pk, request):
@@ -321,7 +317,7 @@ class ListAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
     def retrieve(self, request, *args, **kwargs):
         try:
             instance = List.objects.get(pk=kwargs['pk'])
-            serializer = ListSerializer(instance=instance)
+            serializer = self.serializer_class(instance=instance)
             log.info(f'READ, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
             return Response(serializer.data)
         except List.DoesNotExist:
@@ -342,7 +338,7 @@ class ListAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
             elif (str(user) in [user.username for user in obj.authorized_users.all()]) and (obj not in user_get_list):
                 user_get_list.append(obj)
 
-        serializer = ListSerializer(user_get_list, many=True)
+        serializer = self.serializer_class(user_get_list, many=True)
         return Response(serializer.data)
 
     def delete(self, request, pk):
@@ -352,26 +348,26 @@ class ListAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
             log.info(f'DELETED - "delete_folder_id": {pk}')
             return Response({"delete_list_id": pk}, status=status.HTTP_200_OK)
 
-        return Response({"detail": "У вас недостаточно прав."}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({"detail": "You don't have enough rights."}, status=status.HTTP_401_UNAUTHORIZED)
 
     def put(self, request, pk):
         obj = self.get_object(pk, request)
         if obj:
-            serializer = ListSerializer(obj, data=request.data)
+            serializer = self.serializer_class(obj, data=request.data)
             if serializer.is_valid():
                 serializer.save(edited_by=self.request.user)
                 log.info(f'UPDATED, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
-                return Response(serializer.data)
+                return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({"detail": "У вас недостаточно прав."})
+        return Response({"detail": "You don't have enough rights."})
 
 
 # --------------------------Task----------------------------
 
 
 class TaskAPIViewGetPost(APIView):
-    serializer_class = TaskSerializer
+    serializer_class = serializers.TaskSerializer
     permission_classes = [Authenticated]
 
     def get(self, request, *args, **kwargs):
@@ -379,7 +375,7 @@ class TaskAPIViewGetPost(APIView):
 
     def list(self, request, *args, **kwargs):
         user_get_folder = self.check_privilege()
-        serializer = TaskSerializer(user_get_folder, many=True)
+        serializer = self.serializer_class(user_get_folder, many=True)
         log.info(f'READ: {serializer.data}')
         return Response(serializer.data)
 
@@ -402,7 +398,7 @@ class TaskAPIViewGetPost(APIView):
 
     def post(self, request):
         if request.user.is_authenticated:
-            serializer = TaskSerializer(data=request.data)
+            serializer = self.serializer_class(data=request.data)
             if serializer.is_valid():
                 serializer.save(
                     user=self.request.user,
@@ -414,10 +410,10 @@ class TaskAPIViewGetPost(APIView):
                     log.info(f'CREATED, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
                     return Response(data_s, status=status.HTTP_201_CREATED)
                 else:
-                    return Response({"detail": "У вас недостаточно прав."})
+                    return Response({"detail": "You don't have enough rights."})
 
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response({"detail": "У вас недостаточно прав."})
+        return Response({"detail": "You don't have enough rights."})
 
     def check_parent_list(self):
         user = self.request.user
@@ -439,20 +435,13 @@ class TaskAPIViewGetPost(APIView):
 
 
 class TaskAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже есть в БД' request == 'ТО что сейчас ты твоё состояние'
-    serializer_class = TaskSerializer
+    serializer_class = serializers.TaskSerializer
     permission_classes = [Authenticated]
 
     def get_object(self, pk, request):
         try:
             user = self.request.user
             obj = Task.objects.get(pk=pk)
-            # log.info(user)
-            # log.info(obj)
-            # log.info(obj.user)
-            # log.info(obj.user == user)
-            # log.info(obj.is_public)
-            # log.info(user.is_authenticated)
-            # log.info((str(user) in [user.username for user in obj.authorized_users.all()]))
             if (obj.is_public and user.is_authenticated) or (obj.user == user)\
                     or (str(user) in [user.username for user in obj.authorized_users.all()]):
                 return obj
@@ -468,7 +457,7 @@ class TaskAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
     def retrieve(self, request, *args, **kwargs):
         try:
             instance = Task.objects.get(pk=kwargs['pk'])
-            serializer = TaskSerializer(instance=instance)
+            serializer = self.serializer_class(instance=instance)
             log.info(f'READ, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
             return Response(serializer.data)
         except Task.DoesNotExist:
@@ -489,7 +478,7 @@ class TaskAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
             elif (str(user) in [user.username for user in obj.authorized_users.all()]) and (obj not in user_get_task):
                 user_get_task.append(obj)
 
-        serializer = TaskSerializer(user_get_task, many=True)
+        serializer = self.serializer_class(user_get_task, many=True)
         return Response(serializer.data)
 
     def delete(self, request, pk):
@@ -499,17 +488,17 @@ class TaskAPIViewUpdateDeleteGet(APIView):  # odj == 'ТО ЧТО уже ест�
             log.info(f'DELETED - "delete_folder_id": {pk}')
             return Response({"delete_list_id": pk}, status=status.HTTP_200_OK)
 
-        return Response({"detail": "У вас недостаточно прав."}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({"detail": "You don't have enough rights."}, status=status.HTTP_401_UNAUTHORIZED)
 
     def put(self, request, pk):
         obj = self.get_object(pk, request)
         if obj:
-            serializer = TaskSerializer(obj, data=request.data)
+            serializer = self.serializer_class(obj, data=request.data)
             log.info(serializer)
             if serializer.is_valid():
                 serializer.save(edited_by=self.request.user)
                 log.info(f'UPDATED, ID {serializer.data["id"]}, ID_USER {serializer.data["user"]}: {serializer.data}')
-                return Response(serializer.data)
+                return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({"detail": "У вас недостаточно прав."})
+        return Response({"detail": "You don't have enough rights."})
